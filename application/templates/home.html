@@ -1,0 +1,185 @@
+<!--
+    CS22B1090
+    Shubh Khandelwal
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Inventory Management</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f9f9f9;
+            }
+
+            header {
+                background-color: #f31919;
+                color: white;
+                padding: 15px;
+                text-align: center;
+                font-size: 24px;
+            }
+
+            header a {
+                color: white;
+                text-decoration: none;
+            }
+
+            nav {
+                display: flex;
+                justify-content: space-around;
+                background-color: #333;
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .plan-card {
+                background-color: white;
+                padding: 15px;
+                margin: 10px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            footer {
+                text-align: center;
+                padding: 15px;
+                background-color: #333;
+                color: white;
+                position: relative;
+                bottom: 0;
+                width: 100%;
+            }
+
+            .cta-button {
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                margin-top: 10px;
+                cursor: pointer;
+            }
+
+            .cta-button:hover {
+                background-color: #0056b3;
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <header>
+            <a href="http://127.0.0.1:5000">Inventory Management</a>
+        </header>
+
+        <nav>
+        </nav>
+
+        <div class="container" id="home">
+
+            <h2>Inventory List</h2>
+            <div id="inventory-list"></div>
+
+        </div>
+
+        <footer>
+            © Inventory Management | Designed by Team 41
+        </footer>
+
+        <script>
+
+            async function fetchInventory()
+            {
+                try
+                {
+
+                    const response = await fetch('/api/inventory', { method: "GET" });
+                    const data = await response.json();
+        
+                    const inventoryList = document.getElementById('inventory-list');
+                    inventoryList.innerHTML = '';
+        
+                    Object.keys(data).forEach(id => {
+                        const item = data[id];
+        
+                        const itemCard = document.createElement('div');
+                        itemCard.classList.add('plan-card');
+        
+                        itemCard.innerHTML = `
+                            <h3>${item.description}</h3>
+                            <p>ID: ${item.id} | Quantity: ${item.quantity}</p>
+                            <button class="cta-button" onclick="addItem(${item.id})">Add Item</button>
+                            <button class="cta-button" onclick="removeItem(${item.id})">Remove Item</button>
+                        `;
+        
+                        inventoryList.appendChild(itemCard);
+                    });
+        
+                } catch (error)
+                {
+                    console.error('Error fetching inventory:', error);
+                }
+            }
+        
+            document.addEventListener("DOMContentLoaded", fetchInventory);
+        
+            async function addItem(id)
+            {
+                try
+                {
+
+                    const response = await fetch("/api/add", {
+                        method: "PUT",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({id: id})
+                    });
+        
+                    const result = await response.json();
+                    alert(result.message || result.error);
+        
+                    fetchInventory();
+        
+                } catch (error)
+                {
+                    console.error('Error adding item:', error);
+                }
+            }
+        
+            async function removeItem(id)
+            {
+                try
+                {
+
+                    const response = await fetch("/api/remove", {
+                        method: "PUT",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({id: id})
+                    });
+        
+                    const result = await response.json();
+                    alert(result.message || result.error);
+        
+                    fetchInventory();
+        
+                } catch (error)
+                {
+                    console.error('Error removing item:', error);
+                }
+            }
+        
+        </script>        
+
+    </body>
+</html>
