@@ -37,7 +37,7 @@ class Inventory:
             idx = self.database[self.database["id"] == id].index[0]
             if self.database.loc[idx, "quantity"] < 3:
                 with lock:
-                    node.msg.data = int(self.database.loc[idx, "location"])
+                    node.msg.data = int(self.database.loc[idx, "location"]) * 10 + 1
                 self.database.loc[idx, "quantity"] += 1
                 self.database.to_csv(self.file_path, index=False)
                 return 200
@@ -49,7 +49,7 @@ class Inventory:
             idx = self.database[self.database["id"] == id].index[0]
             if self.database.loc[idx, "quantity"] > 0:
                 with lock:
-                    node.msg.data = int(self.database.loc[idx, "location"])
+                    node.msg.data = int(self.database.loc[idx, "location"]) * 10 + 2
                 self.database.loc[idx, "quantity"] -= 1
                 self.database.to_csv(self.file_path, index=False)
                 return 200

@@ -3,6 +3,30 @@
     Shubh Khandelwal
 */
 
+/*
+
+    Map Visualization:
+
+    |___ ___|
+        |
+    |___|___|
+        |
+    |___|___|
+        |
+
+    13      15
+    12      14
+        11
+    08      10
+    07      09
+        06
+    03      05
+    02      04
+        01
+        00
+
+*/
+
 #include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/bool.hpp"
@@ -32,62 +56,170 @@ class PathPlanner : public rclcpp::Node
 
     void target_subscriber_callback(const std_msgs::msg::Int8::SharedPtr msg)
     {
-        if (msg->data == 1)
+        if (msg->data == 11)
         {
+
             location = 0;
             path.clear();
+
+            // 00 TO 13
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+
+            // 13 TO 03
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+
+            // 03 TO 00
+            path.push_back({0.0, 1.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, -1.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, 1.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, 1.0});
-            path.push_back({1.0, 0.0});
-            path.push_back({0.0, -1.0});
-            path.push_back({1.0, 0.0});
-            path.push_back({0.0, 1.0});
-            path.push_back({1.0, 0.0});
-            path.push_back({0.0, 1.0});
-        } else if (msg->data == 2)
+
+        } else if (msg->data == 12)
         {
+
             location = 0;
             path.clear();
+
+            // 00 TO 03
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+
+            // 03 TO 15
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, 1.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, -1.0});
             path.push_back({1.0, 0.0});
+
+            // 15 TO 00
             path.push_back({0.0, 1.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, 1.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, -1.0});
             path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
             path.push_back({0.0, 1.0});
-        } else if (msg->data == 3)
+
+        } else if (msg->data == 21)
         {
+
             location = 0;
             path.clear();
+
+            // 00 TO 13
             path.push_back({1.0, 0.0});
             path.push_back({1.0, 0.0});
-            path.push_back({0.0, -1.0});
-            path.push_back({1.0, 0.0});
-            path.push_back({0.0, 1.0});
-            path.push_back({1.0, 0.0});
-            path.push_back({0.0, 1.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, -1.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, 1.0});
             path.push_back({1.0, 0.0});
+
+            // 13 TO 05
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, 1.0});
-        } else if (msg->data == 4)
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+
+            // 05 TO 00
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+
+        } else if (msg->data == 22)
         {
+
             location = 0;
             path.clear();
+
+            // 00 TO 05
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+
+            // 05 TO 15
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
             path.push_back({1.0, 0.0});
             path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+
+            // 15 TO 00
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+
+        } else if (msg->data == 31)
+        {
+
+            location = 0;
+            path.clear();
+
+            // 00 TO 13
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+
+            // 13 TO 08
             path.push_back({0.0, 1.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, -1.0});
@@ -96,10 +228,130 @@ class PathPlanner : public rclcpp::Node
             path.push_back({1.0, 0.0});
             path.push_back({0.0, 1.0});
             path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+
+            // 08 TO 00
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+
+        } else if (msg->data == 32)
+        {
+
+            location = 0;
+            path.clear();
+
+            // 00 TO 08
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+
+            // 08 TO 15
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+
+            // 15 TO 00
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+
+        } else if (msg->data == 41)
+        {
+
+            location = 0;
+            path.clear();
+
+            // 00 TO 13
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+
+            // 13 TO 10
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+
+            // 10 TO 00
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
             path.push_back({0.0, -1.0});
             path.push_back({1.0, 0.0});
             path.push_back({1.0, 0.0});
             path.push_back({0.0, 1.0});
+
+        } else if (msg->data == 42)
+        {
+
+            location = 0;
+            path.clear();
+
+            // 00 TO 10
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+
+            // 10 TO 15
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+
+            // 15 TO 00
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, -1.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({1.0, 0.0});
+            path.push_back({0.0, 1.0});
+
         }
     }
 
