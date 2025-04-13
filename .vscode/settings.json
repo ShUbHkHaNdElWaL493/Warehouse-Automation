@@ -3,6 +3,15 @@
         "*.ipp": "cpp",
         "deque": "cpp",
         "string": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "*.tcc": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "any": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "system_error": "cpp"
     }
 }

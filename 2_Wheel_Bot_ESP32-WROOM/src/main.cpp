@@ -12,8 +12,8 @@
 #include <std_msgs/msg/bool.h>
 #include <WiFi.h>
 
-#define WIFI_SSID "Shubh"
-#define WIFI_PASSWORD "00000000"
+#define WIFI_SSID "B5"
+#define WIFI_PASSWORD "pendrive"
 #define AGENT_PORT 8888
 
 #define DIR_L 0
@@ -26,7 +26,7 @@
 #define IR_M 0
 #define IR_R 0
 
-IPAddress AGENT_IP(192, 168, 205, 63);
+IPAddress AGENT_IP(172, 16, 205, 249);
 
 rcl_node_t node;
 rcl_allocator_t allocator;
@@ -231,7 +231,7 @@ void setup()
 void loop()
 {
 
-    rclc_executor_spin_some(&executor_publisher, RCL_MS_TO_NS(100));
+    rclc_executor_spin_some(&executor_publisher, RCL_MS_TO_NS(1000));
     rclc_executor_spin_some(&executor_subscriber, RCL_MS_TO_NS(10));
     delay(10);
 
