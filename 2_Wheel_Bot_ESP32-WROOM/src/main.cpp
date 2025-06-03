@@ -3,7 +3,6 @@
   Shubh Khandelwal
 */
 
-#include <actuator.h>
 #include <geometry_msgs/msg/twist.h>
 #include <micro_ros_platformio.h>
 #include <rcl/rcl.h>
@@ -16,15 +15,15 @@
 #define WIFI_PASSWORD "pendrive"
 #define AGENT_PORT 8888
 
-#define DIR_L 0
-#define PWM_L 0
-#define DIR_R 0
-#define PWM_R 0
+#define DIR_L GPIO_NUM_27
+#define PWM_L GPIO_NUM_33
+#define DIR_R GPIO_NUM_25
+#define PWM_R GPIO_NUM_32
 #define SPEED 51
 
-#define IR_L 0
-#define IR_M 0
-#define IR_R 0
+#define IR_L GPIO_NUM_34
+#define IR_M GPIO_NUM_26
+#define IR_R GPIO_NUM_35
 
 IPAddress AGENT_IP(172, 16, 205, 249);
 
@@ -42,9 +41,6 @@ rclc_executor_t executor_subscriber;
 rcl_subscription_t subscriber;
 geometry_msgs__msg__Twist msg_subscriber;
 
-MD10C motor_L(DIR_L, PWM_L, 0, 0);
-MD10C motor_R(DIR_R, PWM_R, 0, 0);
-
 bool rotation = false;
 
 void move(char c)
@@ -52,24 +48,36 @@ void move(char c)
     switch(c)
     {
         case 'F':
-            motor_L.rotate(SPEED);
-            motor_R.rotate(-(SPEED));
+            rotation = false;
+            digitalWrite(DIR_L, HIGH);
+            digitalWrite(PWM_L, HIGH);
+            digitalWrite(DIR_R, LOW);
+            digitalWrite(PWM_R, HIGH);
             break;
         case 'B':
-            motor_L.rotate(-(SPEED));
-            motor_R.rotate(SPEED);
+            rotation = false;
+            digitalWrite(DIR_L, LOW);
+            digitalWrite(PWM_L, HIGH);
+            digitalWrite(DIR_R, HIGH);
+            digitalWrite(PWM_R, HIGH);
             break;
         case 'L':
-            motor_L.rotate(-(SPEED));
-            motor_R.rotate(-(SPEED));
+            rotation = true;
+            digitalWrite(DIR_L, LOW);
+            digitalWrite(PWM_L, HIGH);
+            digitalWrite(DIR_R, LOW);
+            digitalWrite(PWM_R, HIGH);
             break;
         case 'R':
-            motor_L.rotate(SPEED);
-            motor_R.rotate(SPEED);
+            rotation = true;
+            digitalWrite(DIR_L, HIGH);
+            digitalWrite(PWM_L, HIGH);
+            digitalWrite(DIR_R, HIGH);
+            digitalWrite(PWM_R, HIGH);
             break;
         default:
-            motor_L.rotate(0);
-            motor_R.rotate(0);
+            digitalWrite(PWM_L, LOW);
+            digitalWrite(PWM_R, LOW);
     }
 }
 
@@ -82,6 +90,11 @@ void callback_publisher(rcl_timer_t *timer, int64_t last_call_time)
         byte m = digitalRead(IR_M);
         byte r = digitalRead(IR_R);
 
+        Serial.print(l);
+        Serial.print(m);
+        Serial.print(r);
+        Serial.println(rotation);
+
         if (rotation)
         {
             if (m && !l && !r)
@@ -93,7 +106,7 @@ void callback_publisher(rcl_timer_t *timer, int64_t last_call_time)
             }
         } else
         {
-            if ((m && (l || r)) || !m)
+            if (!m || l || r)
             {
                 msg_publisher.data = true;
             } else
@@ -110,30 +123,22 @@ void callback_subscriber(const void *msgin)
 
     const geometry_msgs__msg__Twist *msg = (const geometry_msgs__msg__Twist *) msgin;
 
+    char m = 'S';
     if (msg->linear.x > 0)
     {
-        move('F');
+        m = 'F';
     } else if (msg->linear.x < 0)
     {
-        move('B');
-    } else
+        m = 'B';
+    } else if (msg->angular.z > 0)
     {
-        move('S');
-    }
-
-    if (msg->angular.z > 0)
-    {
-        move('R');
-        rotation = true;
+        m = 'R';
     } else if (msg->angular.z < 0)
     {
-        move('L');
-        rotation = true;
-    } else
-    {
-        move('S');
-        rotation = false;
+        m = 'L';
     }
+
+    move(m);
 
 }
 
@@ -223,6 +228,10 @@ void setup()
     pinMode(IR_L, INPUT);
     pinMode(IR_M, INPUT);
     pinMode(IR_R, INPUT);
+    pinMode(DIR_L, 0x02);
+    pinMode(DIR_R, 0x02);
+    pinMode(PWM_L, 0x02);
+    pinMode(PWM_R, 0x02);
 
     move('S');
 
@@ -231,7 +240,7 @@ void setup()
 void loop()
 {
 
-    rclc_executor_spin_some(&executor_publisher, RCL_MS_TO_NS(1000));
+    rclc_executor_spin_some(&executor_publisher, RCL_MS_TO_NS(100));
     rclc_executor_spin_some(&executor_subscriber, RCL_MS_TO_NS(10));
     delay(10);
 

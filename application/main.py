@@ -92,14 +92,13 @@ def remove():
     elif code == 404:
         return jsonify({"error": "Item not found."}), code
 
-
-def ros_spin():
-    rclpy.spin(node)
-
 if __name__ == '__main__':
 
     rclpy.init()
     node = TargetPublisherNode()
+
+    def ros_spin():
+        rclpy.spin(node)
 
     ros_thread = threading.Thread(target=ros_spin)
     ros_thread.start()

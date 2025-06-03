@@ -137,6 +137,8 @@ class PathPlanner : public rclcpp::Node
             path.push_back({1.0, 0.0});
             milestones.push_back(0);
             path.push_back({0.0, 1.0});
+            milestones.push_back(0);
+            path.push_back({0.0, 0.0});
 
         } else if (msg->data == 12)
         {
@@ -200,6 +202,8 @@ class PathPlanner : public rclcpp::Node
             path.push_back({1.0, 0.0});
             milestones.push_back(0);
             path.push_back({0.0, 1.0});
+            milestones.push_back(0);
+            path.push_back({0.0, 0.0});
 
         } else if (msg->data == 21)
         {
@@ -263,6 +267,8 @@ class PathPlanner : public rclcpp::Node
             path.push_back({1.0, 0.0});
             milestones.push_back(0);
             path.push_back({0.0, 1.0});
+            milestones.push_back(0);
+            path.push_back({0.0, 0.0});
 
         } else if (msg->data == 22)
         {
@@ -326,6 +332,8 @@ class PathPlanner : public rclcpp::Node
             path.push_back({1.0, 0.0});
             milestones.push_back(0);
             path.push_back({0.0, 1.0});
+            milestones.push_back(0);
+            path.push_back({0.0, 0.0});
 
         } else if (msg->data == 31)
         {
@@ -389,6 +397,8 @@ class PathPlanner : public rclcpp::Node
             path.push_back({1.0, 0.0});
             milestones.push_back(0);
             path.push_back({0.0, 1.0});
+            milestones.push_back(0);
+            path.push_back({0.0, 0.0});
 
         } else if (msg->data == 32)
         {
@@ -452,6 +462,8 @@ class PathPlanner : public rclcpp::Node
             path.push_back({1.0, 0.0});
             milestones.push_back(0);
             path.push_back({0.0, 1.0});
+            milestones.push_back(0);
+            path.push_back({0.0, 0.0});
 
         } else if (msg->data == 41)
         {
@@ -515,6 +527,8 @@ class PathPlanner : public rclcpp::Node
             path.push_back({1.0, 0.0});
             milestones.push_back(0);
             path.push_back({0.0, 1.0});
+            milestones.push_back(0);
+            path.push_back({0.0, 0.0});
 
         } else if (msg->data == 42)
         {
@@ -578,6 +592,8 @@ class PathPlanner : public rclcpp::Node
             path.push_back({1.0, 0.0});
             milestones.push_back(0);
             path.push_back({0.0, 1.0});
+            milestones.push_back(0);
+            path.push_back({0.0, 0.0});
 
         }
     }
